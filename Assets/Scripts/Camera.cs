@@ -8,6 +8,7 @@ public class Camera : MonoBehaviour
     public Vector3 offset;
 
     private bool isFollowing = false;
+   
 
     private void Update()
     {

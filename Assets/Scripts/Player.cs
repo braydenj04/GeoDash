@@ -9,10 +9,16 @@ public class Player : MonoBehaviour
     private const float JumpForce = 13;
     [SerializeField] private Rigidbody2D rb;
 
-    
+    private bool isGrounded;
+
+    [SerializeField] private Transform groundCheckObject;
+    [SerializeField] private LayerMask layerMask;
+
 
     void Update()
     {
+        isGrounded = Physics2D.OverlapCircle(groundCheckObject.position, 0.1f, layerMask);
+
         if (Global.PlayMode)
         {
             rb.linearVelocity = new Vector2(Speed, rb.linearVelocity.y);
@@ -23,7 +29,7 @@ public class Player : MonoBehaviour
 
     private void Jump()
     {
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (Input.GetKeyDown(KeyCode.Space) && isGrounded)
         {
             rb.linearVelocity = new Vector2(rb.linearVelocity.x, y: JumpForce);
         }
