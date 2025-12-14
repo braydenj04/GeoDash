@@ -10,6 +10,10 @@ public class GameManager : MonoBehaviour
 
     public void PlayGame()
     {
-        if(Global.PlayMode)
+        if (!Global.PlayMode)
+        {
+            Global.PlayMode = true;
+            playButton.gameObject.SetActive(false);
+        }
     }
 }
