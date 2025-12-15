@@ -3,14 +3,16 @@ using UnityEngine.UI;
 
 public class Kill : MonoBehaviour
 {
-    public GameObject player;
-    public Transform respawnPoint;
 
     private void OnCollisionEnter2D(Collision2D other)
     {
         if (other.gameObject.CompareTag("Player"))
         {
-            player.transform.position = respawnPoint.position;
+            Player player = other.gameObject.GetComponent<Player>();
+            if (player != null)
+            {
+                player.Die();
+            }
         }
     }
 

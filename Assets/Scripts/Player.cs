@@ -50,4 +50,9 @@ public class Player : MonoBehaviour
             rb.linearVelocity = new Vector2(rb.linearVelocity.x, y: JumpForce);
         }
     }
+
+    public void Die()
+    {
+        GameManager.Instance.PlayerDied();
+    }
 }
