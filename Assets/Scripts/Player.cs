@@ -13,6 +13,7 @@ public class Player : MonoBehaviour
 
     [SerializeField] private Transform groundCheckObject;
     [SerializeField] private LayerMask layerMask;
+    [SerializeField] private ParticleSystem ps;
 
 
     void Update()
@@ -24,9 +25,24 @@ public class Player : MonoBehaviour
             rb.linearVelocity = new Vector2(Speed, rb.linearVelocity.y);
 
             Jump();
+            Particle();
+        }
+
+    }
+    private void Particle()
+    {
+        var velocity = ps.velocityOverLifetime;
+        velocity.x = rb.linearVelocity.x;
+
+        if (isGrounded)
+        {
+            ps.Play();
+        }
+        else
+        {
+            ps.Stop();
         }
     }
-
     private void Jump()
     {
         if (Input.GetKeyDown(KeyCode.Space) && isGrounded)
