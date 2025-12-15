@@ -6,7 +6,7 @@ public class Player : MonoBehaviour
 {
 
     private const float Speed = 8;
-    private const float JumpForce = 13;
+    private const float JumpForce = 10;
     [SerializeField] private Rigidbody2D rb;
 
     private bool isGrounded;

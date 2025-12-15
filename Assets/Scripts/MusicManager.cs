@@ -4,8 +4,10 @@ using UnityEngine.UI;
 public class MusicManager : MonoBehaviour
 {
     private static MusicManager Instance;
-    private AudioSource audioSource;
+    [SerializeField] private AudioSource musicSource;
+    [SerializeField] private AudioSource sfxSource;
     public AudioClip backgroundMusic;
+    public AudioClip jumpSound;
     [SerializeField] private Slider musicSlider;
 
 
@@ -14,7 +16,7 @@ public class MusicManager : MonoBehaviour
         if (Instance  == null)
         {
             Instance = this;
-            audioSource = GetComponent<AudioSource>();
+            musicSource = GetComponent<AudioSource>();
             DontDestroyOnLoad(gameObject);
         }
         else
@@ -25,36 +27,59 @@ public class MusicManager : MonoBehaviour
 
     void Start()
     {
-        if(backgroundMusic  != null)
+        if (backgroundMusic != null)
         {
-            PlayBackgroundMusic(false, backgroundMusic);
-        }        
-        musicSlider.onValueChanged.AddListener(delegate { setVolume(musicSlider.value); });
+            musicSource.clip = backgroundMusic;
+            musicSource.loop = true;
+            musicSource.Play();
+        }
+
+        if (musicSlider != null)
+        {
+            musicSlider.value = musicSource.volume;
+            musicSlider.onValueChanged.AddListener(setVolume);
+        }
     }
 
     public void PlayBackgroundMusic(bool resetSong, AudioClip audioClip = null)
     {
         if(audioClip != null)
         {
-           audioSource.clip = audioClip;
+           musicSource.clip = audioClip;
         }
-        if(audioSource.clip != null)
+        if(musicSource.clip != null)
         {
             if (resetSong)
             {
-                audioSource.Stop();
+                musicSource.Stop();
             }
-            audioSource.Play();
+            musicSource.Play();
         }
     }
 
     public static void setVolume(float volume)
     {
-        Instance.audioSource.volume = volume;
+        Instance.musicSource.volume = volume;
     }
 
     public void PauseBackgroundMusic()
     {
-        audioSource.Pause();
+        musicSource.Pause();
+    }
+
+    void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            PlayjumpSound();
+        }
+    }
+
+    public void PlayjumpSound()
+    {
+        if (jumpSound != null)
+        {
+            sfxSource.PlayOneShot(jumpSound);
+        }
     }
 }
