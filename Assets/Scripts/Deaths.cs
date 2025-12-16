@@ -7,6 +7,7 @@ public class DeathUI : MonoBehaviour
 
     private void Update()
     {
+        //this gets the deathcount number from game manager and displays it in death text
         deathText.text = "Deaths: " + GameManager.Instance.deathCount;
     }
 }

@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.Playables;
 using UnityEngine.UI;
 
 public class MusicManager : MonoBehaviour
@@ -13,10 +14,15 @@ public class MusicManager : MonoBehaviour
 
     private void Awake()
     {
+        //if no instance exists then set this as the instance
         if (Instance  == null)
         {
             Instance = this;
+
+            //get the audio source 
             musicSource = GetComponent<AudioSource>();
+
+            //stops the object from being destroyed when changing scenes
             DontDestroyOnLoad(gameObject);
         }
         else
@@ -27,6 +33,7 @@ public class MusicManager : MonoBehaviour
 
     void Start()
     {
+        //plays the background music when game starts
         if (backgroundMusic != null)
         {
             musicSource.clip = backgroundMusic;
@@ -34,6 +41,7 @@ public class MusicManager : MonoBehaviour
             musicSource.Play();
         }
 
+        //initialises the slider and then updates the volume based on where the slider is set
         if (musicSlider != null)
         {
             musicSlider.value = musicSource.volume;
@@ -41,6 +49,7 @@ public class MusicManager : MonoBehaviour
         }
     }
 
+    //plays background music (some of this is not used as i never got around to it)
     public void PlayBackgroundMusic(bool resetSong, AudioClip audioClip = null)
     {
         if(audioClip != null)
@@ -57,11 +66,13 @@ public class MusicManager : MonoBehaviour
         }
     }
 
+    //sets the volume of the background music according to the slider
     public static void setVolume(float volume)
     {
         Instance.musicSource.volume = volume;
     }
 
+    //pauses the background music if called upon
     public void PauseBackgroundMusic()
     {
         musicSource.Pause();
@@ -69,12 +80,14 @@ public class MusicManager : MonoBehaviour
 
     void Update()
     {
+        //checks if the space button is pressed, if yes then playjumpsound is called
         if (Input.GetKeyDown(KeyCode.Space))
         {
             PlayjumpSound();
         }
     }
 
+    //plays the jump noise
     public void PlayjumpSound()
     {
         if (jumpSound != null)
